@@ -26,6 +26,7 @@ import java.util.function.Function;
 	layers = {"sdk-layer"},
 	runtime = DeploymentRuntime.JAVA17,
 	architecture = Architecture.ARM64,
+	isPublishVersion = false,
 	logsExpiration = RetentionSetting.SYNDICATE_ALIASES_SPECIFIED
 )
 
