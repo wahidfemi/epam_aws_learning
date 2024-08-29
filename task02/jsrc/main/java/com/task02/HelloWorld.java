@@ -7,10 +7,8 @@ import com.amazonaws.services.lambda.runtime.events.APIGatewayV2HTTPResponse;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.syndicate.deployment.annotations.lambda.LambdaHandler;
-import com.syndicate.deployment.annotations.lambda.LambdaLayer;
 import com.syndicate.deployment.annotations.lambda.LambdaUrlConfig;
 import com.syndicate.deployment.model.Architecture;
-import com.syndicate.deployment.model.ArtifactExtension;
 import com.syndicate.deployment.model.DeploymentRuntime;
 import com.syndicate.deployment.model.RetentionSetting;
 import com.syndicate.deployment.model.lambda.url.AuthType;
@@ -36,11 +34,10 @@ import java.util.function.Function;
 public class HelloWorld implements RequestHandler<APIGatewayV2HTTPEvent, APIGatewayV2HTTPResponse> {
 
 	private static final int SC_OK = 200;
-	private static final int SC_NOT_FOUND = 404;
+	private static final int SC_NOT_FOUND = 400;
 	private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 	private final Map<String, String> responseHeaders = Map.of("Content-Type", "application/json");
 	private final Map<RouteKey, Function<APIGatewayV2HTTPEvent, APIGatewayV2HTTPResponse>> routeHandlers = Map.of(
-             new RouteKey("GET", "/"), this::handleGetRoot,
 			new RouteKey("GET", "/hello"), this::handleGetHello);
 
 	@Override
@@ -49,23 +46,14 @@ public class HelloWorld implements RequestHandler<APIGatewayV2HTTPEvent, APIGate
 		return routeHandlers.getOrDefault(routeKey, this::notFoundResponse).apply(requestEvent);
 	}
 
-	private APIGatewayV2HTTPResponse handleGetRoot(APIGatewayV2HTTPEvent requestEvent) {
-		return buildResponse(SC_OK, Body.ok("Use the path /hello to get greetings message"));
-	}
-
 	private APIGatewayV2HTTPResponse handleGetHello(APIGatewayV2HTTPEvent requestEvent) {
-		return buildResponse(SC_OK, Body.ok("Hello%s".formatted(
-				Optional.ofNullable(requestEvent.getQueryStringParameters())
-						.map(this::getUserName)
-						.map(", %s"::formatted)
-						.orElse(" from lambda! Use the query string parameter 'name' to specify your name")
-		)));
+		return buildResponse(SC_OK, Body.ok(SC_OK, "Hello from Lambda"));
 	}
 
 	private APIGatewayV2HTTPResponse notFoundResponse(APIGatewayV2HTTPEvent requestEvent) {
-		return buildResponse(SC_NOT_FOUND, Body.error("The resource with method %s and path %s is not found".formatted(
-				getMethod(requestEvent),
-				getPath(requestEvent)
+		return buildResponse(SC_NOT_FOUND, Body.ok(SC_NOT_FOUND, "Bad request syntax or unsupported method. Request path: %s. HTTP method: %s".formatted(
+				getPath(requestEvent),
+				getMethod(requestEvent)
 		)));
 	}
 
@@ -93,13 +81,9 @@ public class HelloWorld implements RequestHandler<APIGatewayV2HTTPEvent, APIGate
 	private record RouteKey(String method, String path) {
 	}
 
-	private record Body(String message, String error) {
-		static Body ok(String message) {
-			return new Body(message, null);
-		}
-
-		static Body error(String error) {
-			return new Body(null, error);
+	private record Body(int statusCode, String message, String error) {
+		static Body ok(int statusCode, String message) {
+			return new Body(statusCode, message, null);
 		}
 	}
 
