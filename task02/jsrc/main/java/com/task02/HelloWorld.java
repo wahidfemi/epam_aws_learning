@@ -23,20 +23,12 @@ import java.util.function.Function;
 @LambdaHandler(
     lambdaName = "hello_world",
 	roleName = "hello_world-role",
-	layers = {"sdk-layer"},
 	runtime = DeploymentRuntime.JAVA17,
 	architecture = Architecture.ARM64,
 	isPublishVersion = false,
 	logsExpiration = RetentionSetting.SYNDICATE_ALIASES_SPECIFIED
 )
 
-@LambdaLayer(
-		layerName = "sdk-layer",
-		libraries = {"lib/commons-lang3-3.14.0.jar", "lib/gson-2.10.1.jar"},
-		runtime = DeploymentRuntime.JAVA17,
-		architectures = {Architecture.ARM64},
-		artifactExtension = ArtifactExtension.ZIP
-)
 @LambdaUrlConfig(
 		authType = AuthType.NONE,
 		invokeMode = InvokeMode.BUFFERED
