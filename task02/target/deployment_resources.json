@@ -6,7 +6,7 @@
     "func_name" : "com.task02.HelloWorld",
     "deployment_package" : "task02-1.0.0.jar",
     "resource_type" : "lambda",
-    "runtime" : "java11",
+    "runtime" : "java17",
     "architectures" : [ "arm64" ],
     "iam_role_name" : "hello_world-role",
     "memory" : 1024,
@@ -17,6 +17,7 @@
     "event_sources" : [ ],
     "env_variables" : { },
     "publish_version" : false,
+    "layers" : [ "sdk-layer" ],
     "logs_expiration" : "${logs_expiration}",
     "snap_start" : "None",
     "url_config" : {

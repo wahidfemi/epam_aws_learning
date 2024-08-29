@@ -23,8 +23,8 @@ import java.util.function.Function;
 @LambdaHandler(
     lambdaName = "hello_world",
 	roleName = "hello_world-role",
-	isPublishVersion = false,
-	runtime = DeploymentRuntime.JAVA11,
+	layers = {"sdk-layer"},
+	runtime = DeploymentRuntime.JAVA17,
 	architecture = Architecture.ARM64,
 	logsExpiration = RetentionSetting.SYNDICATE_ALIASES_SPECIFIED
 )
