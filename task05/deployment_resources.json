@@ -53,5 +53,12 @@
       }
     },
     "minimum_compression_size": 0
+  },
+  "Events": {
+    "read_capacity": 1,
+    "hash_key_name": "id",
+    "write_capacity": 1,
+    "resource_type": "dynamodb_table",
+    "hash_key_type": "S"
   }
 }

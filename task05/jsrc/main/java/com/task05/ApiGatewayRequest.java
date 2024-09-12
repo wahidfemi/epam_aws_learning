@@ -2,7 +2,7 @@ package com.task05;
 
 public class ApiGatewayRequest {
 
-    private String principalId;
+    private Integer principalId;
     private Object content;
 
     public Object getContent() {
@@ -13,12 +13,11 @@ public class ApiGatewayRequest {
         this.content = content;
     }
 
-    public String getPrincipalId() {
+    public Integer getPrincipalId() {
         return principalId;
     }
 
-    public void setPrincipalId(String principalId) {
+    public void setPrincipalId(Integer principalId) {
         this.principalId = principalId;
     }
-
 }

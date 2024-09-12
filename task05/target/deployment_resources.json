@@ -13,9 +13,15 @@
     "timeout" : 300,
     "subnet_ids" : [ ],
     "security_group_ids" : [ ],
-    "dependencies" : [ ],
+    "dependencies" : [ {
+      "resource_name" : "Events",
+      "resource_type" : "dynamodb_table"
+    } ],
     "event_sources" : [ ],
-    "env_variables" : { },
+    "env_variables" : {
+      "target_table" : "${table_name}",
+      "region" : "${region}"
+    },
     "publish_version" : false,
     "logs_expiration" : "${logs_expiration}",
     "snap_start" : "None"
