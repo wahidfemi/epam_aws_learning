@@ -25,7 +25,7 @@ import java.util.UUID;
 
 @EnvironmentVariables(value = {
 		@EnvironmentVariable(key = "region", value = "${region}"),
-		@EnvironmentVariable(key = "target_table", value = "${table_name}")
+		@EnvironmentVariable(key = "target_table", value = "${target_table}")
 })
 
 

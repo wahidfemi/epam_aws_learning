@@ -16,7 +16,7 @@
     "dependencies" : [ ],
     "event_sources" : [ ],
     "env_variables" : {
-      "target_table" : "${table_name}",
+      "target_table" : "${target_table}",
       "region" : "${region}"
     },
     "publish_version" : false,
