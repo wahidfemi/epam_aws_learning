@@ -6,9 +6,6 @@ import com.amazonaws.services.dynamodbv2.document.Item;
 import com.amazonaws.services.dynamodbv2.document.Table;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
-import com.amazonaws.services.lambda.runtime.events.APIGatewayV2HTTPResponse;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.syndicate.deployment.annotations.environment.EnvironmentVariable;
 import com.syndicate.deployment.annotations.environment.EnvironmentVariables;
 import com.syndicate.deployment.annotations.lambda.LambdaHandler;
@@ -32,13 +29,11 @@ import java.util.UUID;
 })
 
 
-public class ApiHandler implements RequestHandler<ApiGatewayRequest, APIGatewayV2HTTPResponse> {
+public class ApiHandler implements RequestHandler<ApiGatewayRequest, Map<String, Object>> {
 
 	private static final int SC_CREATED = 201;
-	private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
-	private final Map<String, String> responseHeaders = Map.of("Content-Type", "application/json");
 
-	public APIGatewayV2HTTPResponse handleRequest(ApiGatewayRequest apiRequest, Context context) {
+	public Map<String, Object> handleRequest(ApiGatewayRequest apiRequest, Context context) {
 		String tableName = System.getenv("target_table");
 		String region = System.getenv("region");
 		String id = UUID.randomUUID().toString();
@@ -55,14 +50,6 @@ public class ApiHandler implements RequestHandler<ApiGatewayRequest, APIGatewayV
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap.put("statusCode", SC_CREATED);
 		resultMap.put("event", item.asMap());
-		return buildResponse(resultMap);
-	}
-
-	private APIGatewayV2HTTPResponse buildResponse(Object body) {
-		return APIGatewayV2HTTPResponse.builder()
-				.withStatusCode(SC_CREATED)
-				.withHeaders(responseHeaders)
-				.withBody(gson.toJson(body))
-				.build();
+		return resultMap;
 	}
 }
