@@ -1,7 +1,6 @@
 package com.task05;
 
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBAsyncClientBuilder;
-import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.document.DynamoDB;
 import com.amazonaws.services.dynamodbv2.document.Item;
 import com.amazonaws.services.dynamodbv2.document.Table;
@@ -10,10 +9,6 @@ import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.syndicate.deployment.annotations.environment.EnvironmentVariable;
 import com.syndicate.deployment.annotations.environment.EnvironmentVariables;
 import com.syndicate.deployment.annotations.lambda.LambdaHandler;
-import com.syndicate.deployment.annotations.resources.DependsOn;
-import com.syndicate.deployment.model.DeploymentRuntime;
-import com.syndicate.deployment.model.LambdaSnapStart;
-import com.syndicate.deployment.model.ResourceType;
 import com.syndicate.deployment.model.RetentionSetting;
 
 import java.time.Instant;
@@ -28,8 +23,6 @@ import java.util.UUID;
 	logsExpiration = RetentionSetting.SYNDICATE_ALIASES_SPECIFIED
 )
 
-@DependsOn(name = "Events", resourceType = ResourceType.DYNAMODB_TABLE)
-
 @EnvironmentVariables(value = {
 		@EnvironmentVariable(key = "region", value = "${region}"),
 		@EnvironmentVariable(key = "target_table", value = "${table_name}")
@@ -37,6 +30,8 @@ import java.util.UUID;
 
 
 public class ApiHandler implements RequestHandler<ApiGatewayRequest, Map<String, Object>> {
+
+	private static final int SC_CREATED = 201;
 
 	public Map<String, Object> handleRequest(ApiGatewayRequest apiRequest, Context context) {
 		String tableName = System.getenv("target_table");
@@ -53,7 +48,7 @@ public class ApiHandler implements RequestHandler<ApiGatewayRequest, Map<String,
 
 
 		Map<String, Object> resultMap = new HashMap<String, Object>();
-		resultMap.put("statusCode", 201);
+		resultMap.put("statusCode", SC_CREATED);
 		resultMap.put("event", item.asMap());
 		return resultMap;
 	}
