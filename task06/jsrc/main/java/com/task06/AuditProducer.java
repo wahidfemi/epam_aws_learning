@@ -53,19 +53,18 @@ public class AuditProducer implements RequestHandler<DynamodbEvent, Void> {
 			if (INSERT.equals(record.getEventName())) {
 				System.out.println("record going to be inserted in audit table.");
 				Map<String, AttributeValue> recordMap = record.getDynamodb().getNewImage();
+				String itemKeyValue = recordMap.get("key").getS();
 
-                String itemKeyValue = "";
-				for (Map.Entry<String, AttributeValue> entry : recordMap.entrySet()) {
-					if("key".equalsIgnoreCase(entry.getKey())){
-						itemKeyValue = entry.getValue().getS();
-					}
-				}
+				Map<String, Object> simpleMap = new HashMap<String, Object>();
+                simpleMap.put("key", itemKeyValue);
+				simpleMap.put("value", Integer.valueOf(recordMap.get("value").getN()));
+
 
 				String id = UUID.randomUUID().toString();
 				Item item = new Item().withPrimaryKey("id", id)
 						.withString("itemKey", itemKeyValue)
-						.withString("modificationTime", createdOrUpdatedAt);
-						//.with("newValue", recordMap);
+						.withString("modificationTime", createdOrUpdatedAt)
+						.with("newValue", simpleMap);
 				table.putItem(item);
 			}
 		}
