@@ -1,0 +1,39 @@
+{
+  "processor" : {
+    "name" : "processor",
+    "lambda_path" : "C:\\git\\epam_aws_learning\\epam_aws_learning\\task09",
+    "version" : "1.0.0",
+    "func_name" : "com.task09.Processor",
+    "deployment_package" : "task09-1.0.0.jar",
+    "resource_type" : "lambda",
+    "runtime" : "java17",
+    "architectures" : [ "x86_64" ],
+    "iam_role_name" : "processor-role",
+    "memory" : 1024,
+    "timeout" : 300,
+    "subnet_ids" : [ ],
+    "security_group_ids" : [ ],
+    "dependencies" : [ ],
+    "event_sources" : [ ],
+    "env_variables" : {
+      "target_table" : "${target_table}",
+      "region" : "${region}"
+    },
+    "tracing_mode" : "Active",
+    "publish_version" : false,
+    "layers" : [ "sdk-layer" ],
+    "logs_expiration" : "${logs_expiration}",
+    "snap_start" : "None",
+    "url_config" : {
+      "auth_type" : "NONE",
+      "invoke_mode" : "BUFFERED"
+    }
+  },
+  "sdk-layer" : {
+    "name" : "sdk-layer",
+    "runtimes" : [ "java17" ],
+    "resource_type" : "lambda_layer",
+    "deployment_package" : "sdk-layer-assembly.zip",
+    "libraries" : [ "lib/WeatherAPI.jar" ]
+  }
+}
