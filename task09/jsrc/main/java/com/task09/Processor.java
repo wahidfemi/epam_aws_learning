@@ -60,10 +60,12 @@ public class Processor implements RequestHandler<APIGatewayV2HTTPEvent, APIGatew
 	private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 	private final Map<String, String> responseHeaders = Map.of("Content-Type", "application/json");
 	private final Map<RouteKey, Function<APIGatewayV2HTTPEvent, APIGatewayV2HTTPResponse>> routeHandlers = Map.of(
-			new RouteKey("GET", "/storeWeatherData"), this::saveWeatherDataToDynamoDbTable);
+			new RouteKey("GET", "/"), this::saveWeatherDataToDynamoDbTable);
 
 	public APIGatewayV2HTTPResponse handleRequest(APIGatewayV2HTTPEvent requestEvent, Context context) {
 		System.out.println("lambda called via functional url");
+		System.out.println("path : "+getPath(requestEvent));
+		System.out.println("method : "+getMethod(requestEvent));
 		RouteKey routeKey = new RouteKey(getMethod(requestEvent), getPath(requestEvent));
 		return routeHandlers.getOrDefault(routeKey, this::notFoundResponse).apply(requestEvent);
 	}
