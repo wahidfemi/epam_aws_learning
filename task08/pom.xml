@@ -31,6 +31,19 @@
             <artifactId>deployment-configuration-annotations</artifactId>
             <version>${syndicate.java.plugin.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-lambda-java-events</artifactId>
+            <version>3.11.4</version>
+        </dependency>
+        <!--Custom dependencies (for sdk layer)-->
+        <dependency>
+            <groupId>demo.custom.sdk</groupId>
+            <artifactId>weather-downloded-library</artifactId>
+            <version>latest</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/lib/WeatherAPI.jar</systemPath>
+        </dependency>
     </dependencies>
 
     <build>
