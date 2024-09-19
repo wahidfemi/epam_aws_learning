@@ -112,7 +112,7 @@ public class Processor implements RequestHandler<APIGatewayV2HTTPEvent, APIGatew
 
 			//saving data to dynamodb table
 			Item item = new Item().withPrimaryKey("id", id)
-					.with("forecast", finalResponse);
+					.with("forecast", new JSONObject(responseMap));
 			table.putItem(item);
 
 		} catch (JsonProcessingException e) {
