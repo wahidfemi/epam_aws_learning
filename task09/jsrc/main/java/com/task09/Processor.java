@@ -99,12 +99,13 @@ public class Processor implements RequestHandler<APIGatewayV2HTTPEvent, APIGatew
 
 			responseMap.put("elevation", weatherResponse.get("elevation"));
 			responseMap.put("generationtime_ms", weatherResponse.get("generationtime_ms"));
-			responseMap.put("timezone_abbreviation", weatherResponse.get("timezone_abbreviation"));
-			responseMap.put("timezone", weatherResponse.get("timezone"));
+			responseMap.put("hourly", hourlyMap);
+			responseMap.put("hourly_units", hourlyUnitsMap);
 			responseMap.put("latitude", weatherResponse.get("latitude"));
 			responseMap.put("longitude", weatherResponse.get("longitude"));
-			responseMap.put("hourly_units", hourlyUnitsMap);
-			responseMap.put("hourly", hourlyMap);
+			responseMap.put("timezone", weatherResponse.get("timezone"));
+			responseMap.put("timezone_abbreviation", weatherResponse.get("timezone_abbreviation"));
+			responseMap.put("utc_offset_seconds", weatherResponse.get("utc_offset_seconds"));
 			var objectMapper = new ObjectMapper();
 			var finalResponse = objectMapper.writeValueAsString(responseMap);
 			System.out.println(finalResponse);
