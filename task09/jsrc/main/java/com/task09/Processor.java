@@ -8,6 +8,8 @@ import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayV2HTTPEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayV2HTTPResponse;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.syndicate.deployment.annotations.environment.EnvironmentVariable;
@@ -64,8 +66,6 @@ public class Processor implements RequestHandler<APIGatewayV2HTTPEvent, APIGatew
 
 	public APIGatewayV2HTTPResponse handleRequest(APIGatewayV2HTTPEvent requestEvent, Context context) {
 		System.out.println("lambda called via functional url");
-		System.out.println("path : "+getPath(requestEvent));
-		System.out.println("method : "+getMethod(requestEvent));
 		RouteKey routeKey = new RouteKey(getMethod(requestEvent), getPath(requestEvent));
 		return routeHandlers.getOrDefault(routeKey, this::notFoundResponse).apply(requestEvent);
 	}
@@ -79,11 +79,44 @@ public class Processor implements RequestHandler<APIGatewayV2HTTPEvent, APIGatew
 		DynamoDB dynamoDB = new DynamoDB(AmazonDynamoDBAsyncClientBuilder.standard().withRegion(region).build());
 		Table table = dynamoDB.getTable(tableName);
 
-		WeatherData weatherData = new WeatherData();
+		try {
+			WeatherData weatherData = new WeatherData();
+			JSONObject weatherResponse = weatherData.getWeatherData();
+			var responseMap = new HashMap<String, Object>();
 
-		Item item = new Item().withPrimaryKey("id", id)
-				.with("forecast", weatherData.getWeatherData());
-		table.putItem(item);
+			//hourly_units
+			JSONObject hourlyUnits = (JSONObject) weatherResponse.get("hourly_units");
+			var hourlyUnitsMap = new HashMap<String, Object>();
+			hourlyUnitsMap.put("time", hourlyUnits.get("time"));
+			hourlyUnitsMap.put("temperature_2m", hourlyUnits.get("temperature_2m"));
+
+			//hourly
+			JSONObject hourly = (JSONObject) weatherResponse.get("hourly");
+			var hourlyMap = new HashMap<String, Object>();
+			hourlyMap.put("time", hourly.get("time"));
+			hourlyMap.put("temperature_2m", hourly.get("temperature_2m"));
+
+
+			responseMap.put("elevation", weatherResponse.get("elevation"));
+			responseMap.put("generationtime_ms", weatherResponse.get("generationtime_ms"));
+			responseMap.put("timezone_abbreviation", weatherResponse.get("timezone_abbreviation"));
+			responseMap.put("timezone", weatherResponse.get("timezone"));
+			responseMap.put("latitude", weatherResponse.get("latitude"));
+			responseMap.put("longitude", weatherResponse.get("longitude"));
+			responseMap.put("hourly_units", hourlyUnitsMap);
+			responseMap.put("hourly", hourlyMap);
+			var objectMapper = new ObjectMapper();
+			var finalResponse = objectMapper.writeValueAsString(responseMap);
+			System.out.println(finalResponse);
+
+			//saving data to dynamodb table
+			Item item = new Item().withPrimaryKey("id", id)
+					.with("forecast", finalResponse);
+			table.putItem(item);
+
+		} catch (JsonProcessingException e) {
+			throw new RuntimeException(e);
+		}
 
 		return buildResponse(SC_OK, Body.ok(SC_OK, "Data saved to Dynamodb table - Weather"));
 	}
