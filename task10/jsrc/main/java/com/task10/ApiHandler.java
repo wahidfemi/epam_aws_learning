@@ -4,13 +4,10 @@ import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
-import com.syndicate.deployment.annotations.lambda.LambdaUrlConfig;
 import com.syndicate.deployment.model.RetentionSetting;
-import com.syndicate.deployment.model.lambda.url.AuthType;
-import com.syndicate.deployment.model.lambda.url.InvokeMode;
 import com.task10.dto.RouteKey;
 import com.task10.handler.GetRootHandler;
-import com.task10.handler.GetSecuredHandler;
+import com.task10.handler.PostTablesHandler;
 import com.task10.handler.RouteNotImplementedHandler;
 import com.task10.handler.PostSignInHandler;
 import com.task10.handler.PostSignUpHandler;
@@ -28,8 +25,6 @@ import java.util.Map;
 import static com.syndicate.deployment.model.environment.ValueTransformer.USER_POOL_NAME_TO_CLIENT_ID;
 import static com.syndicate.deployment.model.environment.ValueTransformer.USER_POOL_NAME_TO_USER_POOL_ID;
 
-@DependsOn(resourceType = ResourceType.COGNITO_USER_POOL, name = "${booking_userpool}")
-
 @LambdaHandler(
         lambdaName = "api_handler",
         roleName = "api_handler-role",
@@ -38,10 +33,14 @@ import static com.syndicate.deployment.model.environment.ValueTransformer.USER_P
         logsExpiration = RetentionSetting.SYNDICATE_ALIASES_SPECIFIED
 )
 
+@DependsOn(resourceType = ResourceType.COGNITO_USER_POOL, name = "${booking_userpool}")
+
 @EnvironmentVariables(value = {
         @EnvironmentVariable(key = "REGION", value = "${region}"),
         @EnvironmentVariable(key = "COGNITO_ID", value = "${booking_userpool}", valueTransformer = USER_POOL_NAME_TO_USER_POOL_ID),
-        @EnvironmentVariable(key = "CLIENT_ID", value = "${booking_userpool}", valueTransformer = USER_POOL_NAME_TO_CLIENT_ID)
+        @EnvironmentVariable(key = "CLIENT_ID", value = "${booking_userpool}", valueTransformer = USER_POOL_NAME_TO_CLIENT_ID),
+        @EnvironmentVariable(key = "tables_table", value = "${tables_table}"),
+        @EnvironmentVariable(key = "reservations_table", value = "${reservations_table}")
 })
 
 public class ApiHandler implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
@@ -85,7 +84,7 @@ public class ApiHandler implements RequestHandler<APIGatewayProxyRequestEvent, A
                 new RouteKey("GET", "/"), new GetRootHandler(),
                 new RouteKey("POST", "/signup"), new PostSignUpHandler(cognitoClient),
                 new RouteKey("POST", "/signin"), new PostSignInHandler(cognitoClient),
-                new RouteKey("GET", "/secured"), new GetSecuredHandler()
+                new RouteKey("POST", "/tables"), new PostTablesHandler()
         );
     }
 
