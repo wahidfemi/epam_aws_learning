@@ -62,6 +62,7 @@ public class ApiHandler implements RequestHandler<APIGatewayProxyRequestEvent, A
                     .handleRequest(requestEvent, context);
         }
         catch(Exception exception){
+            exception.printStackTrace();
             return new APIGatewayProxyResponseEvent()
                     .withStatusCode(400)
                     .withBody(new JSONObject().put("message", "Bad Request").toString());
@@ -89,7 +90,9 @@ public class ApiHandler implements RequestHandler<APIGatewayProxyRequestEvent, A
                 new RouteKey("POST", "/signup"), new PostSignUpHandler(cognitoClient),
                 new RouteKey("POST", "/signin"), new PostSignInHandler(cognitoClient),
                 new RouteKey("POST", "/tables"), new PostTablesHandler(),
-                new RouteKey("POST", "/reservations"), new PostReservationsHandler()
+                new RouteKey("GET", "/tables"), new GetTablesHandler(),
+                new RouteKey("POST", "/reservations"), new PostReservationsHandler(),
+                new RouteKey("GET", "/reservations"), new GetReservationsHandler()
         );
     }
 

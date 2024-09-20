@@ -11,6 +11,7 @@
             "dynamodb:Query",
             "dynamodb:PutItem",
             "dynamodb:Batch*",
+            "dynamodb:Scan",
             "dynamodb:DeleteItem",
             "ssm:PutParameter",
             "ssm:GetParameter",
@@ -92,6 +93,7 @@
           "default_error_pattern": true
         },
         "GET": {
+          "enable_proxy": true,
           "authorization_type": "authorizer",
           "integration_type": "lambda",
           "lambda_name": "api_handler",
@@ -118,6 +120,7 @@
           "default_error_pattern": true
         },
         "GET": {
+          "enable_proxy": true,
           "authorization_type": "authorizer",
           "integration_type": "lambda",
           "lambda_name": "api_handler",
