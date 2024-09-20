@@ -81,7 +81,7 @@
         "enable_cors": false,
         "POST": {
           "enable_proxy": true,
-          "authorization_type": "NONE",
+          "authorization_type": "authorizer",
           "integration_type": "lambda",
           "lambda_name": "api_handler",
           "api_key_required": false,
@@ -92,7 +92,7 @@
           "default_error_pattern": true
         },
         "GET": {
-          "authorization_type": "NONE",
+          "authorization_type": "authorizer",
           "integration_type": "lambda",
           "lambda_name": "api_handler",
           "api_key_required": false,
@@ -106,7 +106,7 @@
       "/reservations": {
         "enable_cors": false,
         "POST": {
-          "authorization_type": "NONE",
+          "authorization_type": "authorizer",
           "integration_type": "lambda",
           "lambda_name": "api_handler",
           "api_key_required": false,
@@ -117,7 +117,7 @@
           "default_error_pattern": true
         },
         "GET": {
-          "authorization_type": "NONE",
+          "authorization_type": "authorizer",
           "integration_type": "lambda",
           "lambda_name": "api_handler",
           "api_key_required": false,
@@ -129,7 +129,17 @@
         }
       }
     },
-    "minimum_compression_size": 0
+    "minimum_compression_size": 0,
+    "authorizers": {
+      "authorizer": {
+        "type": "COGNITO_USER_POOLS",
+        "identity_source": "method.request.header.Authorization",
+        "ttl": 300,
+        "user_pools": [
+          "simple-booking-userpool"
+        ]
+      }
+    }
   },
   "${tables_table}": {
     "resource_type": "dynamodb_table",
