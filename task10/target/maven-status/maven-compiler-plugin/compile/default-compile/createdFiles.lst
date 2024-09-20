@@ -1,4 +1,5 @@
 com\task10\ApiHandler.class
+com\task10\handler\PostReservationsHandler.class
 com\task10\handler\PostSignUpHandler.class
 com\task10\handler\GetRootHandler.class
 com\task10\handler\CognitoSupport.class

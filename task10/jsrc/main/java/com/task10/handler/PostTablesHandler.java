@@ -12,9 +12,6 @@ import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
 import org.json.JSONObject;
 
-import java.time.Instant;
-import java.util.UUID;
-
 public class PostTablesHandler implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
 
     @Override
@@ -23,8 +20,6 @@ public class PostTablesHandler implements RequestHandler<APIGatewayProxyRequestE
         System.out.println("going to create table data to dynamodb table");
         String tablesTableName = System.getenv("tables_table");
         String region = System.getenv("REGION");
-        String id = UUID.randomUUID().toString();
-        String createdAt = Instant.now().toString();
         DynamoDB dynamoDB = new DynamoDB(AmazonDynamoDBAsyncClientBuilder.standard().withRegion(region).build());
         Table table = dynamoDB.getTable(tablesTableName);
 

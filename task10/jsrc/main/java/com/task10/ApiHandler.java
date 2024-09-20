@@ -6,11 +6,7 @@ import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
 import com.syndicate.deployment.model.RetentionSetting;
 import com.task10.dto.RouteKey;
-import com.task10.handler.GetRootHandler;
-import com.task10.handler.PostTablesHandler;
-import com.task10.handler.RouteNotImplementedHandler;
-import com.task10.handler.PostSignInHandler;
-import com.task10.handler.PostSignUpHandler;
+import com.task10.handler.*;
 import com.syndicate.deployment.annotations.environment.EnvironmentVariable;
 import com.syndicate.deployment.annotations.environment.EnvironmentVariables;
 import com.syndicate.deployment.annotations.lambda.LambdaHandler;
@@ -84,7 +80,8 @@ public class ApiHandler implements RequestHandler<APIGatewayProxyRequestEvent, A
                 new RouteKey("GET", "/"), new GetRootHandler(),
                 new RouteKey("POST", "/signup"), new PostSignUpHandler(cognitoClient),
                 new RouteKey("POST", "/signin"), new PostSignInHandler(cognitoClient),
-                new RouteKey("POST", "/tables"), new PostTablesHandler()
+                new RouteKey("POST", "/tables"), new PostTablesHandler(),
+                new RouteKey("POST", "/reservations"), new PostReservationsHandler()
         );
     }
 
