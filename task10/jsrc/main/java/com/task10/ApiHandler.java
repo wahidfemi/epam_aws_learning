@@ -13,6 +13,7 @@ import com.syndicate.deployment.annotations.lambda.LambdaHandler;
 import com.syndicate.deployment.annotations.resources.DependsOn;
 import com.syndicate.deployment.model.DeploymentRuntime;
 import com.syndicate.deployment.model.ResourceType;
+import org.json.JSONObject;
 import software.amazon.awssdk.auth.credentials.DefaultCredentialsProvider;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.cognitoidentityprovider.CognitoIdentityProviderClient;
@@ -56,8 +57,15 @@ public class ApiHandler implements RequestHandler<APIGatewayProxyRequestEvent, A
         System.out.println("path : "+requestEvent.getPath());
         System.out.println("method : "+requestEvent.getHttpMethod());
 
-        return getHandler(requestEvent)
-                .handleRequest(requestEvent, context);
+        try {
+            return getHandler(requestEvent)
+                    .handleRequest(requestEvent, context);
+        }
+        catch(Exception exception){
+            return new APIGatewayProxyResponseEvent()
+                    .withStatusCode(400)
+                    .withBody(new JSONObject().put("message", "Bad Request").toString());
+        }
     }
 
     private RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> getHandler(APIGatewayProxyRequestEvent requestEvent) {
