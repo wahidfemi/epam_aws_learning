@@ -3,7 +3,6 @@ package com.task10.handler;
 
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBAsyncClientBuilder;
 import com.amazonaws.services.dynamodbv2.document.DynamoDB;
-import com.amazonaws.services.dynamodbv2.document.PutItemOutcome;
 import com.amazonaws.services.dynamodbv2.document.Table;
 import com.amazonaws.services.dynamodbv2.document.Item;
 import com.amazonaws.services.lambda.runtime.Context;
@@ -32,7 +31,7 @@ public class PostTablesHandler implements RequestHandler<APIGatewayProxyRequestE
                     .withBoolean("isVip", Boolean.parseBoolean(tablesData.get("isVip").toString()))
                     .withNumber("minOrder", Integer.parseInt(tablesData.get("minOrder").toString()));
 
-        PutItemOutcome outcome = table.putItem(item);
+        table.putItem(item);
 
         return new APIGatewayProxyResponseEvent()
                 .withStatusCode(200)

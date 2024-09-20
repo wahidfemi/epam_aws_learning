@@ -4,15 +4,12 @@ package com.task10.handler;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBAsyncClientBuilder;
 import com.amazonaws.services.dynamodbv2.document.DynamoDB;
 import com.amazonaws.services.dynamodbv2.document.Item;
-import com.amazonaws.services.dynamodbv2.document.PutItemOutcome;
 import com.amazonaws.services.dynamodbv2.document.Table;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
 import org.json.JSONObject;
-
-import java.time.Instant;
 import java.util.UUID;
 
 public class PostReservationsHandler implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
@@ -24,7 +21,6 @@ public class PostReservationsHandler implements RequestHandler<APIGatewayProxyRe
         String reservationsTableName = System.getenv("reservations_table");
         String region = System.getenv("REGION");
         String id = UUID.randomUUID().toString();
-        String createdAt = Instant.now().toString();
         DynamoDB dynamoDB = new DynamoDB(AmazonDynamoDBAsyncClientBuilder.standard().withRegion(region).build());
         Table table = dynamoDB.getTable(reservationsTableName);
 
@@ -37,9 +33,8 @@ public class PostReservationsHandler implements RequestHandler<APIGatewayProxyRe
                     .withString("date", reservationsData.get("date").toString())
                     .withString("slotTimeStart", reservationsData.get("slotTimeStart").toString())
                     .withString("slotTimeEnd", reservationsData.get("slotTimeEnd").toString());
-                ;
 
-        PutItemOutcome outcome = table.putItem(item);
+        table.putItem(item);
 
         return new APIGatewayProxyResponseEvent()
                 .withStatusCode(200)
