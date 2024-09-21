@@ -41,7 +41,7 @@ public class GetReservationsHandler implements RequestHandler<APIGatewayProxyReq
         ArrayList<Object> tempList = new ArrayList<Object>();
         for (Map<String, AttributeValue> item : result.getItems()) {
             Map<String, Object> simpleMap = new HashMap<String, Object>();
-            simpleMap.put("tableNumber", item.get("tableNumber").getN());
+            simpleMap.put("tableNumber", Integer.parseInt(item.get("tableNumber").getN()));
             simpleMap.put("clientName", item.get("clientName").getS());
             simpleMap.put("phoneNumber", item.get("phoneNumber").getS());
             simpleMap.put("date", item.get("date").getS());
