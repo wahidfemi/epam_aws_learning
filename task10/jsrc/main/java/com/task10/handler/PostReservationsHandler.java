@@ -38,7 +38,9 @@ public class PostReservationsHandler implements RequestHandler<APIGatewayProxyRe
                 .withTableName(tablesTableName);
         ScanResult result = dynamoDBClient.scan(scanRequest);
         boolean tableExists = false;
+        System.out.println("reservation table number : "+reservationsData.get("tableNumber").toString());
         for (Map<String, AttributeValue> item : result.getItems()) {
+            System.out.println("existing table id : "+item.get("id").getN());
             if(item.get("id").getN().equalsIgnoreCase(reservationsData.get("tableNumber").toString())){
                 tableExists = true;
             }
