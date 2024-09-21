@@ -5,6 +5,7 @@ C:\git\epam_aws_learning\epam_aws_learning\task10\jsrc\main\java\com\task10\dto\
 C:\git\epam_aws_learning\epam_aws_learning\task10\jsrc\main\java\com\task10\handler\CognitoSupport.java
 C:\git\epam_aws_learning\epam_aws_learning\task10\jsrc\main\java\com\task10\handler\GetReservationsHandler.java
 C:\git\epam_aws_learning\epam_aws_learning\task10\jsrc\main\java\com\task10\handler\GetRootHandler.java
+C:\git\epam_aws_learning\epam_aws_learning\task10\jsrc\main\java\com\task10\handler\GetSpecificTableHandler.java
 C:\git\epam_aws_learning\epam_aws_learning\task10\jsrc\main\java\com\task10\handler\GetTablesHandler.java
 C:\git\epam_aws_learning\epam_aws_learning\task10\jsrc\main\java\com\task10\handler\PostReservationsHandler.java
 C:\git\epam_aws_learning\epam_aws_learning\task10\jsrc\main\java\com\task10\handler\PostSignInHandler.java

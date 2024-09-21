@@ -21,7 +21,7 @@ public class GetTablesHandler implements RequestHandler<APIGatewayProxyRequestEv
     @Override
     public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent requestEvent, Context context) {
 
-        System.out.println("going to get reservations data from dynamodb table");
+        System.out.println("going to get tables data from dynamodb table");
         String tablesTableName = System.getenv("tables_table");
         String region = System.getenv("REGION");
         AmazonDynamoDBAsync dynamoDBClient = AmazonDynamoDBAsyncClientBuilder.standard().withRegion(region).build();
