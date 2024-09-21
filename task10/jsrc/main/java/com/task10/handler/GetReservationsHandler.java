@@ -34,14 +34,14 @@ public class GetReservationsHandler implements RequestHandler<APIGatewayProxyReq
         AmazonDynamoDBAsync dynamoDBClient = AmazonDynamoDBAsyncClientBuilder.standard().withRegion(region).build();
 
         ScanRequest scanRequest = new ScanRequest()
-                .withTableName(reservationsTableName)
-                .withAttributesToGet("tableNumber", "clientName", "phoneNumber", "date", "slotTimeStart", "slotTimeEnd");
+                .withTableName(reservationsTableName);
+                //.withAttributesToGet("tableNumber", "clientName", "phoneNumber", "date", "slotTimeStart", "slotTimeEnd");
         ScanResult result = dynamoDBClient.scan(scanRequest);
 
         ArrayList<Object> tempList = new ArrayList<Object>();
         for (Map<String, AttributeValue> item : result.getItems()) {
             Map<String, Object> simpleMap = new HashMap<String, Object>();
-            simpleMap.put("tableNumber", item.get("tableNumber").getS());
+            simpleMap.put("tableNumber", item.get("tableNumber").getN());
             simpleMap.put("clientName", item.get("clientName").getS());
             simpleMap.put("phoneNumber", item.get("phoneNumber").getS());
             simpleMap.put("date", item.get("date").getS());

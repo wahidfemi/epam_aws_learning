@@ -23,10 +23,9 @@ public class PostReservationsHandler implements RequestHandler<APIGatewayProxyRe
         String id = UUID.randomUUID().toString();
         DynamoDB dynamoDB = new DynamoDB(AmazonDynamoDBAsyncClientBuilder.standard().withRegion(region).build());
         Table table = dynamoDB.getTable(reservationsTableName);
-
         JSONObject reservationsData = new JSONObject(requestEvent.getBody());
         //saving data to dynamodb table
-        Item item = new Item().withPrimaryKey("reservationId", id)
+        Item item = new Item().withPrimaryKey("id", id)
                     .withNumber("tableNumber", Integer.parseInt(reservationsData.get("tableNumber").toString()))
                     .withString("clientName", reservationsData.get("clientName").toString())
                     .withString("phoneNumber", reservationsData.get("phoneNumber").toString())
