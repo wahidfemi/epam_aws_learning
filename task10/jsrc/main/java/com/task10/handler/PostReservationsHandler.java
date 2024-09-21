@@ -66,7 +66,9 @@ public class PostReservationsHandler implements RequestHandler<APIGatewayProxyRe
                     .withBody(new JSONObject().put("reservationId", id).toString());
         }
         else {
-            throw new NullPointerException();
+            return new APIGatewayProxyResponseEvent()
+                    .withStatusCode(400)
+                    .withBody("given table does not exists");
         }
     }
 
