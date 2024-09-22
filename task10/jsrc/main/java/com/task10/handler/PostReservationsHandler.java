@@ -40,8 +40,8 @@ public class PostReservationsHandler implements RequestHandler<APIGatewayProxyRe
         boolean tableExists = false;
         System.out.println("reservation table number : "+reservationsData.get("tableNumber").toString());
         for (Map<String, AttributeValue> item : result.getItems()) {
-            System.out.println("existing table id : "+item.get("id").getN());
-            if(item.get("id").getN().equalsIgnoreCase(reservationsData.get("tableNumber").toString())){
+            System.out.println("existing table id : "+item.get("number").getN());
+            if(item.get("number").getN().equalsIgnoreCase(reservationsData.get("tableNumber").toString())){
                 tableExists = true;
             }
         }
@@ -68,7 +68,7 @@ public class PostReservationsHandler implements RequestHandler<APIGatewayProxyRe
         else {
             return new APIGatewayProxyResponseEvent()
                     .withStatusCode(400)
-                    .withBody("given table does not exists");
+                    .withBody(new JSONObject().put("message", "given table number doesn't exists").toString());
         }
     }
 
