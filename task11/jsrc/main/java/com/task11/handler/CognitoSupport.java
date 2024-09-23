@@ -1,6 +1,6 @@
-package com.task10.handler;
+package com.task11.handler;
 
-import com.task10.dto.SignUp;
+import com.task11.dto.SignUp;
 import software.amazon.awssdk.services.cognitoidentityprovider.CognitoIdentityProviderClient;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.AdminCreateUserRequest;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.AdminCreateUserResponse;

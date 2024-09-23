@@ -1,5 +1,5 @@
 
-package com.task10.handler;
+package com.task11.handler;
 
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBAsyncClientBuilder;
 import com.amazonaws.services.dynamodbv2.document.DynamoDB;
