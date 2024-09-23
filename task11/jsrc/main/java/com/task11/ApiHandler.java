@@ -44,11 +44,13 @@ public class ApiHandler implements RequestHandler<APIGatewayProxyRequestEvent, A
 
     private final CognitoIdentityProviderClient cognitoClient;
     private final Map<RouteKey, RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent>> handlersByRouteKey;
+    private final Map<String, String> headersForCORS;
     private final RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> routeNotImplementedHandler;
 
     public ApiHandler() {
         this.cognitoClient = initCognitoClient();
         this.handlersByRouteKey = initHandlers();
+        this.headersForCORS = initHeadersForCORS();
         this.routeNotImplementedHandler = new RouteNotImplementedHandler();
     }
 
