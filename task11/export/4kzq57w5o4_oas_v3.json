@@ -162,6 +162,8 @@
                }
             },
             "x-amazon-apigateway-integration":{
+               "httpMethod":"POST",
+               "uri":"arn:aws:apigateway:${region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${region}:${account_id}:function:api_handler/invocations",
                "responses":{
                   "default":{
                      "statusCode":"200",
@@ -330,7 +332,7 @@
             },
             "x-amazon-apigateway-integration":{
                "httpMethod":"POST",
-               "uri":"arn:aws:apigateway:eu-central-1:lambda:path/2015-03-31/functions/arn:aws:lambda:eu-central-1:905418349556:function:api_handler/invocations",
+               "uri":"arn:aws:apigateway:${region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${region}:${account_id}:function:api_handler/invocations",
                "responses":{
                   "default":{
                      "statusCode":"200",
@@ -395,6 +397,8 @@
                }
             },
             "x-amazon-apigateway-integration":{
+               "httpMethod":"POST",
+               "uri":"arn:aws:apigateway:${region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${region}:${account_id}:function:api_handler/invocations",
                "responses":{
                   "default":{
                      "statusCode":"200",
@@ -571,8 +575,8 @@
                }
             ],
             "x-amazon-apigateway-integration":{
-               "httpMethod":"POST",
-               "uri":"arn:aws:apigateway:eu-central-1:lambda:path/2015-03-31/functions/arn:aws:lambda:eu-central-1:905418349556:function:api_handler/invocations",
+               "httpMethod":"GET",
+               "uri":"arn:aws:apigateway:${region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${region}:${account_id}:function:api_handler/invocations",
                "responses":{
                   "default":{
                      "statusCode":"200",
@@ -763,7 +767,7 @@
             ],
             "x-amazon-apigateway-integration":{
                "httpMethod":"POST",
-               "uri":"arn:aws:apigateway:eu-central-1:lambda:path/2015-03-31/functions/arn:aws:lambda:eu-central-1:905418349556:function:api_handler/invocations",
+               "uri":"arn:aws:apigateway:${region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${region}:${account_id}:function:api_handler/invocations",
                "responses":{
                   "default":{
                      "statusCode":"200",
@@ -816,6 +820,8 @@
                }
             },
             "x-amazon-apigateway-integration":{
+               "httpMethod":"POST",
+               "uri":"arn:aws:apigateway:${region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${region}:${account_id}:function:api_handler/invocations",
                "responses":{
                   "default":{
                      "statusCode":"200",
@@ -1003,8 +1009,8 @@
                }
             ],
         "x-amazon-apigateway-integration": {
-          "httpMethod": "GET",
-          "uri": "arn:aws:apigateway:eu-central-1:lambda:path/2015-03-31/functions/arn:aws:lambda:eu-central-1:905418349556:function:api_handler/invocations",
+          "httpMethod":"GET",
+          "uri":"arn:aws:apigateway:${region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${region}:${account_id}:function:api_handler/invocations",
           "responses": {
             "default": {
               "statusCode": "200",
@@ -1094,7 +1100,7 @@
             ],
             "x-amazon-apigateway-integration":{
                "httpMethod":"POST",
-               "uri":"arn:aws:apigateway:eu-central-1:lambda:path/2015-03-31/functions/arn:aws:lambda:eu-central-1:905418349556:function:api_handler/invocations",
+               "uri":"arn:aws:apigateway:${region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${region}:${account_id}:function:api_handler/invocations",
                "responses":{
                   "default":{
                      "statusCode":"200",
@@ -1147,6 +1153,8 @@
                }
             },
             "x-amazon-apigateway-integration":{
+               "httpMethod":"POST",
+               "uri":"arn:aws:apigateway:${region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${region}:${account_id}:function:api_handler/invocations",
                "responses":{
                   "default":{
                      "statusCode":"200",
@@ -1333,8 +1341,8 @@
                }
             ],
             "x-amazon-apigateway-integration":{
-               "httpMethod":"POST",
-               "uri":"arn:aws:apigateway:eu-central-1:lambda:path/2015-03-31/functions/arn:aws:lambda:eu-central-1:905418349556:function:api_handler/invocations",
+               "httpMethod":"GET",
+               "uri":"arn:aws:apigateway:${region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${region}:${account_id}:function:api_handler/invocations",
                "responses":{
                   "default":{
                      "statusCode":"200",
@@ -1397,6 +1405,8 @@
                }
             },
             "x-amazon-apigateway-integration":{
+               "httpMethod":"POST",
+               "uri":"arn:aws:apigateway:${region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${region}:${account_id}:function:api_handler/invocations",
                "responses":{
                   "default":{
                      "statusCode":"200",
@@ -1701,7 +1711,9 @@
         "x-amazon-apigateway-authtype": "cognito_user_pools",
         "x-amazon-apigateway-authorizer": {
           "type": "cognito_user_pools",
-          "x-syndicate-cognito-userpool-names": ["${booking_userpool}"]
+          "x-syndicate-cognito-userpool-names": [
+             "simple-booking-userpool"
+          ]
         }
       }
     }
