@@ -379,17 +379,6 @@
       "get": {
         "summary":"Fetch available tables",
         "description":"Retrieve the list of available tables.",
-        "parameters":[
-           {
-              "name":"Authorization",
-              "in":"header",
-              "required":true,
-              "schema":{
-                 "type":"string",
-                 "example":"Bearer "
-              }
-           }
-        ],
         "responses":{
            "200":{
               "description":"200 response",
@@ -543,17 +532,11 @@
         ],
         "x-amazon-apigateway-integration": {
           "type": "aws_proxy",
-          "httpMethod": "GET",
+          "httpMethod": "POST",
           "uri":"arn:aws:apigateway:${region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${region}:${account_id}:function:api_handler/invocations",
            "responses": {
             "default": {
               "statusCode": "200",
-              "responseParameters": {
-                "method.response.header.Access-Control-Allow-Origin": "'*'"
-              }
-            },
-            "401": {
-               "statusCode": "401",
               "responseParameters": {
                 "method.response.header.Access-Control-Allow-Origin": "'*'"
               }
