@@ -51,7 +51,7 @@ public class PostReservationsHandler implements RequestHandler<APIGatewayProxyRe
         List<Map<String, AttributeValue>> existingReservations = new ArrayList<Map<String, AttributeValue>>();
         for (Map<String, AttributeValue> item : reservationsResult.getItems()) {
             if(item.get("tableNumber").getN().equalsIgnoreCase(reservationsData.get("tableNumber").toString())
-            && item.get("date").getS().equalsIgnoreCase(reservationsData.get("date").toString())){
+            && item.get("date").getN().equalsIgnoreCase(reservationsData.get("date").toString())){
                 existingReservations.add(item);
             }
         }
